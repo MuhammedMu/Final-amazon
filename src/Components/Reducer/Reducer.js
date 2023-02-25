@@ -1,61 +1,42 @@
-export const initialState = {
-  basket: [],
-  user: null,
-};
+import ProductsData from "../ProductsData/ProductsData";
+import { auth } from "firebase/auth";
 
-// Selector
-export const getBasketTotal = (basket) =>
-  basket?.reduce((amount, item) => item.price + amount, 0);
+// console.log(auth)
 
-  // const Total = (basket) =>
-  // basket?.reduce((amount, item) => item.price + amount, 0);
-  
-// console.log(basket);
+export const reducer = (state, action) => {
+  if (action.type === "ADD_TO_BASKET") {
+    const newItem = ProductsData.find(
+      (product) => product.id === action.payload
+    );
 
-const reducer = (state, action) => {
-  console.log(action);
-  switch (action.type) {
-    case "ADD_TO_BASKET":
-      return {
-        ...state,
-        basket: [...state.basket, action.item],
-      };
-
-    case "EMPTY_BASKET":
-      return {
-        ...state,
-        basket: [],
-      };
-
-    case "REMOVE_FROM_BASKET":
-      const index = state.basket.findIndex(
-        (basketItem) => basketItem.id === action.id
-      );
-      let newBasket = [...state.basket];
-
-      if (index >= 0) {
-        newBasket.splice(index, 1);
-      } else {
-        console.warn(
-          `Cant remove product (id: ${action.id}) as its not in basket!`
-        );
-      }
-
-      return {
-        ...state,
-        basket: newBasket,
-      };
-
-    case "SET_USER":
-      return {
-        ...state,
-        user: action.user,
-      };
-
-    default:
-      return state;
+    return {
+      ...state,
+      basket: [...state.basket, newItem],
+    };
   }
+
+  if (action.type === "REMOVE_FROM_BASKET") {
+    const newItem = state.basket.filter((product) => {
+      return product.id !== action.payload;
+    });
+
+    return {
+      ...state,
+      basket: newItem,
+    };
+    
+  }
+
+  if (action.type === "SET_USER") {
+
+    return {
+      user: action.payload,
+    };
+  }
+
+
+
+
+
+  
 };
-
-export default reducer;
-

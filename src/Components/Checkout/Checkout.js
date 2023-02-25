@@ -1,38 +1,20 @@
-import React from 'react'
-import CheckoutProduct from '../CheckoutProduct/CheckoutProduct';
+import React from "react";
+import CheckoutProduct from "../CheckoutProduct/CheckoutProduct";
 
 // import img1 from "../../images/img1.jpg"
-import { useStateValue } from '../StateProvider/StateProvider';
-import Subtotal from '../Subtotal/Subtotal';
-import "./Checkout.css"
+import Subtotal from "../Subtotal/Subtotal";
+import "./Checkout.css";
+
+import { useDataGlobaly } from "../StateProvider/StateProvider";
 
 function Checkout({ id, image, title, price, rating }) {
-
-  const [{ basket }, dispatch] = useStateValue();
-
-  const removeFromBasket = () => {
-    dispatch({
-      type: "REMOVE_FROM_BASKET",
-      id,
-    });
-    // toast("Item removed from basket!");
-  };
+  const { basket } = useDataGlobaly();
 
   return (
     <div className="checkout-both">
-      <div>
+      
         <CheckoutProduct />
-
-        {basket.map((item) => (
-          <CheckoutProduct
-            id={item.id}
-            title={item.title}
-            image={item.image}
-            price={item.price}
-            rating={item.rating}
-          />
-        ))}
-      </div>
+       
 
       <div className="checkout-rights">
         <Subtotal />
@@ -41,4 +23,4 @@ function Checkout({ id, image, title, price, rating }) {
   );
 }
 
-export default Checkout
+export default Checkout;
