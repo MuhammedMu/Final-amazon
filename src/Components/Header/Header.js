@@ -7,11 +7,18 @@ import amazon from "../../images/pngimg.com - amazon_PNG11.png";
 import US from "../../images/united-states.png";
 // import location from "../../images/location.png";
 import "./Header.css";
-import { useStateValue } from "../StateProvider/StateProvider";
+import { useDataGlobaly } from "../StateProvider/StateProvider";
+import { auth } from "../../firebase";
 
 function Header() {
-
-  const [{ basket }, dispatch] = useStateValue();
+  const { basket, user } = useDataGlobaly();
+  
+  const handleAuthentication=()=>{
+    if (user) {
+      auth.signOut();
+    }
+    
+  }
 
   return (
     <div className="outer-wraper">
@@ -62,8 +69,10 @@ function Header() {
         </div>
 
         <div className="signin">
-          <div className="p1">Hello,signin</div>
-          <div className="p2">Account & Lists</div>
+          <Link to="/login">
+            <div className="p1">Hello, {user ? user : "signin"}</div>
+          </Link>
+            <div onClick={handleAuthentication} className="p2">{user ? "signout" : "signin"}</div>
         </div>
 
         <div className="returns">
@@ -77,7 +86,7 @@ function Header() {
               <ShoppingCartIcon />
             </Link>
           </div>
-          <div className="length">{basket?.length}</div>
+          <div className="length"></div>
         </div>
       </div>
     </div>

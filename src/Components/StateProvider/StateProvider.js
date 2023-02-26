@@ -1,100 +1,50 @@
-import React, { createContext, useContext, useReducer } from "react";
+import React, { useContext, useReducer } from "react";
+import { reducer } from "../Reducer/Reducer";
 
-// Prepares the dataLayer
-export const StateContext = createContext();
+export const DataContext = React.createContext();
 
-// Wrap our app and provide the Data layer
-export const StateProvider = ({ reducer, initialState, children }) => (
-  <StateContext.Provider value={useReducer(reducer, initialState)}>
-    {children}
-  </StateContext.Provider>
-);
+function StateProvider({ children }) {
+  const initialState = {
+    basket: [],
+    user: null,
+  };
 
-// Pull information from the data layer
-export const useStateValue = () => useContext(StateContext);
+  const AddToCart = (id) => {
+    // console.log(state.basket
+    dispatch({ type: "ADD_TO_BASKET", payload: id });
+  };
 
+  const RemoveCart = (id) => {
+    // console.log(state.basket
+    dispatch({ type: "REMOVE_FROM_BASKET", payload: id });
+  };
 
+  const SigninUser = (user) => {
+    // console.log(state.basket
+    dispatch({ type: "SET_USER", payload: user });
+  };
 
+  const [state, dispatch] = useReducer(reducer, initialState);
 
+  return (
+    <DataContext.Provider
+      value={{ ...state, AddToCart, RemoveCart, SigninUser }}
+    >
+      {children}
+    </DataContext.Provider>
+  );
+}
 
+export const useDataGlobaly = () => {
+  return useContext(DataContext);
+};
 
+export default StateProvider;
 
+// const {basket} = initialState  -> object destructuring
 
+// dispatch is for manager create the task (for transfering orders)
+// reducer is for accomplishing the task
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import reducer from "../Reducer/Reducer";
-// import React, { useContext, useEffect, useReducer } from "react";
-// import ProductsData from "./Components/Products/ProductsData";
-// import { auth } from "./Firebase";
-// // import { onAuthStateChanged } from "firebase/auth";
-
-// const DataContext = React.createContext();
-
-// const initialState = {
-//   amount: 0,
-//   total: 0,
-//   cart: [],
-//   user: null,
-//   products: ProductsData,
-// };
-
-// function ContextProvider({ children }) {
-//   const [state, dispach] = useReducer(reducer, initialState);
-
-//   const AddToCart = (id) => {
-//     dispach({ type: "ADD_TO_CART", payload: id });
-//   };
-//   const Remove = (id) => {
-//     dispach({ type: "REMOVE", id: id });
-//   };
-//   const LogIn = (userInfo) => {
-//     dispach({ type: "LOGIN", loginUser: userInfo });
-//   };
-//   const Logout = () => {
-//     dispach({ type: "LOGOUT" });
-//   };
-
-//   useEffect(() => {
-//     auth.onAuthStateChanged((authUser) => {
-//       authUser
-//         ? dispach({ type: "SET_USER", payload: authUser })
-//         : dispach({ type: "SET_USER", payload: null });
-//     });
-//   }, []);
-
-//   return (
-//     <DataContext.Provider
-//       value={{ ...state, AddToCart, Remove, LogIn, Logout }}
-//     >
-//       {children}
-//     </DataContext.Provider>
-//   );
-// }
-
-// export const useGlobalDataContext = () => {
-//   return useContext(DataContext);
-// };
-
-// export default ContextProvider;
+// state is an object that stores the current state of the application. 
+// dispatch is an object that stores the function that will be called when the state changes.

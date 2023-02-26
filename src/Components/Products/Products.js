@@ -4,58 +4,51 @@
 // import product3 from "../../images/laptop3.jpg";
 
 import React from "react";
-import { useStateValue } from "../StateProvider/StateProvider";
+import ProductsData from "../ProductsData/ProductsData";
+import { useDataGlobaly } from "../StateProvider/StateProvider";
 import "./Products.css";
 
-function Products({ title, image, id, price, rating }) {
-  const [{ basket }, dispatch] = useStateValue();
-  
-  console.log(price)
-
-    const addToBasket = () => {
-      dispatch({
-        type: "ADD_TO_BASKET",
-        item: {
-          id: id,
-          title: title,
-          image: image,
-          price: price,
-          rating: rating,
-        },
-      });
-      // toast("Added item to basket!");
-    };
-
-  console.log(`this is the basket`, basket);
+function Products() {
+  const { AddToCart } = useDataGlobaly();
 
   return (
-    <div className="product-outer-wraper">
-      <div className="all-product-wraper">
-        <div className="products-wraper">
-          <div className="product-image">
-            <img src={image} alt="" />
-          </div>
-          <div className="product-title">{title}</div>
-          <div className="product-rating">
-            {Array(rating)
-              .fill()
-              .map((value, index) => {
-                return (
-                  <div key={index} className="rating-count">
-                    ⭐
+    <div className="banner-and-product-flex">
+      {ProductsData.map((product) => {
+        const { title, id, image, price, rating } = product;
+        // console.log(title)
+        return (
+          <div className="first" key={product.id}>
+            <div className="product-outer-wraper">
+              <div className="all-product-wraper">
+                <div className="products-wraper">
+                  <div className="product-image">
+                    <img src={image} alt="" />
                   </div>
-                );
-              })}
-          </div>
-          <div className="products-price">{price}  $</div>
+                  <div className="product-title">{title}</div>
+                  <div className="product-rating">
+                    {Array(rating)
+                      .fill()
+                      .map((value, index) => {
+                        return (
+                          <div key={index} className="rating-count">
+                            ⭐
+                          </div>
+                        );
+                      })}
+                  </div>
+                  <div className="products-price">{price} $</div>
 
-          <div className="stock">On Stock</div>
+                  <div className="stock">On Stock</div>
 
-          <div className="add-cart">
-            <button onClick={addToBasket}>Add to cart</button>
+                  <div className="add-cart">
+                    <button onClick={() => AddToCart(id)}>Add to cart</button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+        );
+      })}
     </div>
   );
 }
