@@ -2,7 +2,7 @@ import { useDataGlobaly } from "../StateProvider/StateProvider";
 
 function CheckoutProduct() {
   const { basket, RemoveCart } = useDataGlobaly();
-  // console.log(basket[0].id);
+  console.log(basket)
   let totalPrice = 0;
   return (
     <div className="checkout-outer-wraper">
@@ -91,7 +91,7 @@ function CheckoutProduct() {
         );
       })}
       <div className="sub-total">
-        Subtotal ({basket.length} item): {totalPrice}
+        Subtotal ( item): {totalPrice}
       </div>
     </div>
   );

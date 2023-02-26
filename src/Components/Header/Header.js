@@ -9,16 +9,17 @@ import US from "../../images/united-states.png";
 import "./Header.css";
 import { useDataGlobaly } from "../StateProvider/StateProvider";
 import { auth } from "../../firebase";
+import { signOut } from "@firebase/auth";
 
 function Header() {
-  const { basket, user } = useDataGlobaly();
+  const { basket, user ,SignoutUser } = useDataGlobaly();
+  console.log(basket);
+
   
-  const handleAuthentication=()=>{
-    if (user) {
-      auth.signOut();
-    }
-    
-  }
+  //  SignoutUser = () => {
+  //   // user 
+  //   signOut(auth);
+  // };
 
   return (
     <div className="outer-wraper">
@@ -70,9 +71,13 @@ function Header() {
 
         <div className="signin">
           <Link to="/login">
-            <div className="p1">Hello, {user ? user : "signin"}</div>
+            <div className="p1">Hello, {user ? user : "guest"}</div>
           </Link>
-            <div onClick={handleAuthentication} className="p2">{user ? "signout" : "signin"}</div>
+          {user ? (
+            <div onClick={SignoutUser}>{user ? "signout" : "signin"}</div>
+          ) : (
+            <Link to={"/login"}> signin</Link>
+          )}
         </div>
 
         <div className="returns">
@@ -86,7 +91,7 @@ function Header() {
               <ShoppingCartIcon />
             </Link>
           </div>
-          <div className="length"></div>
+          <div className="length">{basket?.length}</div>
         </div>
       </div>
     </div>

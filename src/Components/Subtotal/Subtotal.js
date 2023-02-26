@@ -9,7 +9,7 @@ function Subtotal() {
 
   useEffect(() => {
     let tp = 0;
-    const total = basket.map((bs) => {
+    const total = basket?.map((bs) => {
       tp += Number(bs.price);
     });
 

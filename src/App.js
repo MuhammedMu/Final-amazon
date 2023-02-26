@@ -47,8 +47,8 @@ function App() {
                 <>
                   <Header />
                   <Ads />
-                  <Login />
-                  {/* <Checkout /> */}
+                  {/* <Login /> */}
+                  <Checkout />
                 </>
               }
             />

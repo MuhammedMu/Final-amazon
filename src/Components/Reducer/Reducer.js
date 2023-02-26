@@ -9,6 +9,7 @@ export const reducer = (state, action) => {
       (product) => product.id === action.payload
     );
 
+    
     return {
       ...state,
       basket: [...state.basket, newItem],
@@ -30,6 +31,7 @@ export const reducer = (state, action) => {
   if (action.type === "SET_USER") {
 
     return {
+      ...state,
       user: action.payload,
     };
   }

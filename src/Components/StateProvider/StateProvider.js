@@ -23,12 +23,17 @@ function StateProvider({ children }) {
     // console.log(state.basket
     dispatch({ type: "SET_USER", payload: user });
   };
+  
+  const SignoutUser = () => {
+    // console.log(state.basket
+    dispatch({ type: "SET_USER", payload: null });
+  };
 
   const [state, dispatch] = useReducer(reducer, initialState);
 
   return (
     <DataContext.Provider
-      value={{ ...state, AddToCart, RemoveCart, SigninUser }}
+      value={{ ...state, AddToCart, RemoveCart, SigninUser, SignoutUser }}
     >
       {children}
     </DataContext.Provider>
