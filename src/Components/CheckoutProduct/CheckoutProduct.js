@@ -1,8 +1,20 @@
+import { useEffect, useState } from "react";
+import CurrencyFormat from "react-currency-format";
 import { useDataGlobaly } from "../StateProvider/StateProvider";
 
 function CheckoutProduct() {
   const { basket, RemoveCart } = useDataGlobaly();
-  console.log(basket)
+  const [totlaPrice, setTotalPrice] = useState(0);
+
+  useEffect(() => {
+    let tp = 0;
+    const total = basket?.map((bs) => {
+      tp += Number(bs.price);
+    });
+
+    setTotalPrice(tp);
+  }, [basket]);
+  
   let totalPrice = 0;
   return (
     <div className="checkout-outer-wraper">
@@ -17,7 +29,7 @@ function CheckoutProduct() {
               <hr />
               <div className="all-data">
                 <div className="product-img">
-                  <img src="jh" alt="" srcset="" />
+                  <img src={singleBasket.image} alt="" srcset="" />
                 </div>
                 <div className="data">
                   <div className="title-wraper">
@@ -90,9 +102,19 @@ function CheckoutProduct() {
           </div>
         );
       })}
-      <div className="sub-total">
-        Subtotal ( item): {totalPrice}
-      </div>
+
+      <CurrencyFormat
+        renderText={(value) => (
+          <>
+            <div className="sub-total">Subtotal ( item): {value}</div>
+          </>
+        )}
+        decimalScale={2}
+        value={totlaPrice}
+        displayType="text"
+        thousandSeparator={true}
+        prefix={"$"}
+      />
     </div>
   );
 }

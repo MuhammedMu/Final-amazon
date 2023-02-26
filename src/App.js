@@ -9,6 +9,7 @@ import Login from "./Components/Login/Login";
 import { useEffect } from "react";
 import { auth } from "./firebase";
 import { useDataGlobaly } from "./Components/StateProvider/StateProvider";
+import Payment from "./Components/Payment/Payment";
 
 function App() {
 
@@ -56,9 +57,16 @@ function App() {
               path="/login"
               element={
                 <>
-              
                   <Login />
-                  
+                </>
+              }
+            />
+            <Route
+              path="/payment"
+              element={
+                <>
+                  <Header />
+                  <Payment />
                 </>
               }
             />

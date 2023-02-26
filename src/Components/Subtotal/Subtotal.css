@@ -29,3 +29,7 @@
   border: 1px solid #F7CA00;
 background-color: #F7CA00;
 }
+
+.checkout-proceed {
+  width: 270px;
+}
