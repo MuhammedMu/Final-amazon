@@ -3,21 +3,23 @@ import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../../firebase";
 import "./Login.css";
 import {signInWithEmailAndPassword,createUserWithEmailAndPassword} from "firebase/auth"
+import { useDataGlobaly } from "../StateProvider/StateProvider";
 
 function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  
+  const { SigninUser } = useDataGlobaly();
 
   // console.log(auth)
-  
+
   const signIn = (e) => {
     e.preventDefault();
 
     signInWithEmailAndPassword(auth, email, password)
     .then((auth) => {
-        console.log(auth)
+        // console.log(auth.user.uid);
+        SigninUser(auth.user);
         navigate("/");
       })
       .catch((error) => alert(error.message));
@@ -26,17 +28,17 @@ function Login() {
   const register = (e) => {
     e.preventDefault();
 
-    createUserWithEmailAndPassword(auth,email, password)
+    createUserWithEmailAndPassword(auth, email, password)
       .then((auth) => {
-        console.log(auth)
+        console.log(auth);
         // it successfully created a new user with email and password
         if (auth) {
-          navigate("/");
+          SigninUser(auth.user);
+          // navigate("/");
         }
       })
       .catch((error) => alert(error.message));
   };
-  
 
   return (
     <div className="signin-outer-wraper">
@@ -73,15 +75,16 @@ function Login() {
         <button type="submit" onClick={signIn} className="login__signInButton">
           Sign In
         </button>
-        <p>
+        <span>
           By continuing, you agree to Amazon's Conditions of Use and Privacy
           Notice.
-        </p>
-        <p>Need help?</p>
+        </span>
+
+        <span>Need help?</span>
       </div>
 
       <div className="create-account">
-        <p>New to Amazon?</p>
+        <span>New to Amazon?</span>
 
         <button type="submit" onClick={register}>
           Create your Amazon account

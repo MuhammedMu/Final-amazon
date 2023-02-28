@@ -6,25 +6,17 @@ import Nav from "./Components/Nav/Nav";
 import Ads from "./Components/Ads/Ads";
 import Checkout from "./Components/Checkout/Checkout";
 import Login from "./Components/Login/Login";
-import { useEffect } from "react";
-import { auth } from "./firebase";
-import { useDataGlobaly } from "./Components/StateProvider/StateProvider";
 import Payment from "./Components/Payment/Payment";
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
+import Orders from "./Components/Orders/Orders";
+
+const promise = loadStripe(
+  "pk_test_51MfjA5EhJx2w283p7uVxSTaFozx3DHZKZpa5tGefmsHJGaXwm9gfTUNn4r9RTRtIqbq0Vv3x5s9u33IfZQleH07O00fnTjc37Z"
+);
 
 function App() {
 
-  const { SigninUser } = useDataGlobaly();
-  
-
-
-  useEffect(() => {
-    auth.onAuthStateChanged((authUser) => {
-      // console.log(authUser.email)
-      if (authUser) {
-        SigninUser(authUser.email);
-      }
-    });
-  },[] );
 
   return (
     <div className="App">
@@ -61,12 +53,15 @@ function App() {
                 </>
               }
             />
+            <Route path="/orders" element={<Orders />} />
             <Route
               path="/payment"
               element={
                 <>
                   <Header />
-                  <Payment />
+                  <Elements stripe={promise}>
+                    <Payment />
+                  </Elements>
                 </>
               }
             />

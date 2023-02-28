@@ -7,9 +7,9 @@ import  StateProvider  from './Components/StateProvider/StateProvider';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <StateProvider >
-    <React.StrictMode>
+    {/* <React.StrictMode> */}
       <App />
-    </React.StrictMode>
+    {/* </React.StrictMode> */}
   </StateProvider>
 );
 

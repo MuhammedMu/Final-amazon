@@ -1,4 +1,5 @@
-import React, { useContext, useReducer } from "react";
+import React, { useContext, useEffect, useReducer } from "react";
+import { auth } from "../../firebase";
 import { reducer } from "../Reducer/Reducer";
 
 export const DataContext = React.createContext();
@@ -19,6 +20,11 @@ function StateProvider({ children }) {
     dispatch({ type: "REMOVE_FROM_BASKET", payload: id });
   };
 
+  const RemoveAllCart = (id) => {
+    // console.log(state.basket
+    dispatch({ type: "REMOVE_ALL_FROM_BASKET", payload: id });
+  };
+
   const SigninUser = (user) => {
     // console.log(state.basket
     dispatch({ type: "SET_USER", payload: user });
@@ -29,11 +35,26 @@ function StateProvider({ children }) {
     dispatch({ type: "SET_USER", payload: null });
   };
 
+    useEffect(() => {
+      auth.onAuthStateChanged((authUser) => {
+        authUser ? dispatch({ type: 'SET_USER', payload: authUser })
+          :  dispatch({type: 'SET_USER', payload: null})
+
+      });
+    }, []);
+
   const [state, dispatch] = useReducer(reducer, initialState);
 
   return (
     <DataContext.Provider
-      value={{ ...state, AddToCart, RemoveCart, SigninUser, SignoutUser }}
+      value={{
+        ...state,
+        AddToCart,
+        RemoveCart,
+        SigninUser,
+        SignoutUser,
+        RemoveAllCart,
+      }}
     >
       {children}
     </DataContext.Provider>

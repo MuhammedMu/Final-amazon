@@ -44,15 +44,20 @@
 .banner-and-product-flex{
   display: flex;
   margin-left: 150px;
-  margin-top: -300px;
-  margin-bottom: 300px;
+  /* margin-top: -300px; */
+  /* margin-bottom: 300px; */
   position: relative;
+  /* overflow-y: hidden;
+    overflow-x: scroll; */
 }
 
 .banner-and-product-flex .first{
     width: 400px;
     margin-left: 100px;
     justify-content: space-between;
+    /* margin-top: 400px; */
+    overflow-y: hidden;
+    overflow-x: scroll
 }
 
 
@@ -62,6 +67,8 @@
   margin-top: -300px;
   margin-bottom: 300px;
   position: relative;
+  overflow-y: hidden;
+    overflow-x: scroll
 }
 
 .banner-and-product-flex-third{
@@ -70,4 +77,7 @@
   margin-top: -300px;
   margin-bottom: 300px;
   position: relative;
+  overflow-y: hidden;
+    overflow-x: scroll
 }
+

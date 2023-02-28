@@ -11,7 +11,7 @@ function Subtotal() {
   useEffect(() => {
     let tp = 0;
     const total = basket?.map((bs) => {
-      tp += Number(bs.price);
+      return (tp += Number(bs.price));
     });
 
     setTotalPrice(tp);
@@ -22,9 +22,9 @@ function Subtotal() {
       <CurrencyFormat
         renderText={(value) => (
           <>
-            <p>
+            <h5>
               Subtotal ( items): <strong> {value}</strong>
-            </p>
+            </h5>
             <small className="subtotal__gift">
               <input type="checkbox" /> This order contains a gift
             </small>

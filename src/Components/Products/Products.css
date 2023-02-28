@@ -15,11 +15,12 @@ color: black;
 
 .products-wraper{
     width: 350px;
-    height: 570px;
+    height: 520px;
     background-color: #F8F8F8;
     display: inline-block;
     margin-bottom: 30px;
     padding: 0 5px;
+    padding: 0 20px;
 }
 
 .products-wraper:hover{
@@ -81,3 +82,17 @@ margin: 0 auto;padding-left: 50px;}
     border: none;
     border-radius: 15px;
 }
+
+.catagories-title{
+    margin-left: 250px;
+}
+
+.all-list-wrapers{
+    margin-top: 100px;
+}
+
+.catagories-title{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+

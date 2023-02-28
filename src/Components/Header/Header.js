@@ -12,14 +12,13 @@ import { auth } from "../../firebase";
 import { signOut } from "@firebase/auth";
 
 function Header() {
-  const { basket, user ,SignoutUser } = useDataGlobaly();
-  console.log(basket);
+  const { basket, user, SignoutUser } = useDataGlobaly();
+  // console.log(basket);
 
-  
-  //  SignoutUser = () => {
-  //   // user 
-  //   signOut(auth);
-  // };
+   const Signout = () => {
+    // user
+    SignoutUser(auth);
+  };
 
   return (
     <div className="outer-wraper">
@@ -71,10 +70,10 @@ function Header() {
 
         <div className="signin">
           <Link to="/login">
-            <div className="p1">Hello, {user ? user : "guest"}</div>
+            <div className="p1">Hello, {user ? user.email : "guest"}</div>
           </Link>
           {user ? (
-            <div onClick={SignoutUser}>{user ? "signout" : "signin"}</div>
+            <div onClick={Signout}>{user ? "signout" : "signin"}</div>
           ) : (
             <Link to={"/login"}> signin</Link>
           )}

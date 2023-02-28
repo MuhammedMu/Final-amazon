@@ -9,7 +9,7 @@ function CheckoutProduct() {
   useEffect(() => {
     let tp = 0;
     const total = basket?.map((bs) => {
-      tp += Number(bs.price);
+      return (tp += Number(bs.price));
     });
 
     setTotalPrice(tp);
@@ -18,18 +18,18 @@ function CheckoutProduct() {
   let totalPrice = 0;
   return (
     <div className="checkout-outer-wraper">
-      {basket?.map((singleBasket) => {
+      {basket?.map((singleBasket,index) => {
         totalPrice += Number(singleBasket.price);
 
         return (
-          <div className="cart-wraper">
+          <div className="cart-wraper" key={index}>
             <div className="carts">
               <div className="banner-title">Shooping Cart</div>
 
               <hr />
               <div className="all-data">
                 <div className="product-img">
-                  <img src={singleBasket.image} alt="" srcset="" />
+                  <img src={singleBasket.image} alt="" />
                 </div>
                 <div className="data">
                   <div className="title-wraper">
