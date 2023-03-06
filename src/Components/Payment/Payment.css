@@ -63,3 +63,12 @@ margin-left: 20px;
 .payment-sub-total{
     font-weight: bold;
 }
+
+.remove-button{
+    margin-top: 10px;
+}
+
+.card-element{
+    width: 400px;
+    margin: 20px auto;
+}

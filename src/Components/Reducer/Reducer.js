@@ -9,6 +9,7 @@ import { auth } from "firebase/auth";
 
 export const reducer = (state, action) => {
   if (action.type === "ADD_TO_BASKET") {
+    console.log(state);
     if (action.payload <= 10) {
       const newItem = ProductsData.find(
         (product) => product.id === action.payload
@@ -54,11 +55,23 @@ export const reducer = (state, action) => {
       basket: [],
     };
   }
-console.log(state)
+
+  console.log(state)
+  
   if (action.type === "SET_USER") {
-    return {
-      ...state,
-      user: action.payload,
-    };
+    if (action.payload !== null) {
+      return {
+        ...state,
+        user: action.payload,
+      };
+    }
+
+    else {
+      return {
+        basket: [],
+        user: null
+      }
+    }
+
   }
 };

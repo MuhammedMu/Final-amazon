@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../../firebase";
 import "./Login.css";
-import {signInWithEmailAndPassword,createUserWithEmailAndPassword} from "firebase/auth"
+import {
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+} from "firebase/auth";
 import { useDataGlobaly } from "../StateProvider/StateProvider";
 
 function Login() {
@@ -17,7 +20,7 @@ function Login() {
     e.preventDefault();
 
     signInWithEmailAndPassword(auth, email, password)
-    .then((auth) => {
+      .then((auth) => {
         // console.log(auth.user.uid);
         SigninUser(auth.user);
         navigate("/");
@@ -75,12 +78,12 @@ function Login() {
         <button type="submit" onClick={signIn} className="login__signInButton">
           Sign In
         </button>
-        <span>
+        <span className="continue">
           By continuing, you agree to Amazon's Conditions of Use and Privacy
-          Notice.
+          Notice. 
         </span>
 
-        <span>Need help?</span>
+        <span className="continue"> Need help?</span>
       </div>
 
       <div className="create-account">

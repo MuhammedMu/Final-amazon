@@ -6,20 +6,25 @@ function CheckoutProduct() {
   const { basket, RemoveCart } = useDataGlobaly();
   const [totlaPrice, setTotalPrice] = useState(0);
 
-  useEffect(() => {
-    let tp = 0;
-    const total = basket?.map((bs) => {
-      return (tp += Number(bs.price));
-    });
+  // useEffect(() => {
+  //   let tp = 0;
+  //   const total = basket?.map((bs) => {
+  //     return (tp += Number(bs.price));
+  //   });
 
-    setTotalPrice(tp);
-  }, [basket]);
+  //   setTotalPrice(tp);
+  // }, [basket]);
   
+
+  
+    console.log(basket);
+  
+
   let totalPrice = 0;
   return (
     <div className="checkout-outer-wraper">
       {basket?.map((singleBasket,index) => {
-        totalPrice += Number(singleBasket.price);
+        // totalPrice += Number(singleBasket.price);
 
         return (
           <div className="cart-wraper" key={index}>
@@ -34,11 +39,12 @@ function CheckoutProduct() {
                 <div className="data">
                   <div className="title-wraper">
                     <div className="title">{singleBasket.title}</div>
-                    <div className="price">${singleBasket.price}</div>
+                    
+                    {/* <div className="price">${singleBasket.price}</div> */}
                   </div>
 
                   <p className="checkoutProduct__rating">
-                    {Array(singleBasket.rating)
+                    {/* {Array(singleBasket.rating)
                       .fill()
                       .map((value, index) => {
                         return (
@@ -46,7 +52,33 @@ function CheckoutProduct() {
                             ⭐
                           </p>
                         );
-                      })}
+                      })} */}
+                    <span
+                      className={`fa fa-star ${
+                        singleBasket.rating >= 1 && "checked"
+                      }`}
+                    ></span>
+                    <span
+                      className={`fa fa-star ${
+                        singleBasket.rating >= 2 && "checked"
+                      }`}
+                    ></span>
+                    <span
+                      className={`fa fa-star ${
+                        singleBasket.rating >= 3 && "checked"
+                      }`}
+                    ></span>
+                    <span
+                      className={`fa fa-star ${
+                        singleBasket.rating >= 4 && "checked"
+                      }`}
+                    ></span>
+                    <span
+                      className={`fa fa-star ${
+                        singleBasket.rating >= 5 && "checked"
+                      }`}
+                    ></span>{" "}
+                    {singleBasket.rating} /5
                   </p>
 
                   <div className="instock">in Stock</div>
@@ -103,7 +135,7 @@ function CheckoutProduct() {
         );
       })}
 
-      <CurrencyFormat
+      {/* <CurrencyFormat
         renderText={(value) => (
           <>
             <div className="sub-total">Subtotal ( item): {value}</div>
@@ -114,7 +146,7 @@ function CheckoutProduct() {
         displayType="text"
         thousandSeparator={true}
         prefix={"$"}
-      />
+      /> */}
     </div>
   );
 }

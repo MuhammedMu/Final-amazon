@@ -40,22 +40,17 @@
   transform: translateX(100%);
 }
 
-
+/* 
 .banner-and-product-flex{
   display: flex;
   margin-left: 150px;
-  /* margin-top: -300px; */
-  /* margin-bottom: 300px; */
   position: relative;
-  /* overflow-y: hidden;
-    overflow-x: scroll; */
 }
 
 .banner-and-product-flex .first{
     width: 400px;
     margin-left: 100px;
     justify-content: space-between;
-    /* margin-top: 400px; */
     overflow-y: hidden;
     overflow-x: scroll
 }
@@ -80,4 +75,15 @@
   overflow-y: hidden;
     overflow-x: scroll
 }
+ */
 
+
+ .banner-and-product-flex{
+  display: flex;
+  margin-left: 10px;
+}
+
+.current-wraper{
+  margin-left: 20px;
+  /* border: 1px solid black; */
+}
