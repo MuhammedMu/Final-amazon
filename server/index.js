@@ -49,3 +49,8 @@ totals = Math.round(totals);
 
 app.listen(3004, () => console.log("server listening on port 3004!"));
 // exports.api = functions.https.onRequest(app);
+
+
+// app.listen(3004, () => {
+//   console.log(`Server is running on port ${PORT}`);
+// });
