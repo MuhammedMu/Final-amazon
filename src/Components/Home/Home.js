@@ -4,7 +4,6 @@ import Banners from "./HomeData";
 import ChevronLeftOutlinedIcon from "@mui/icons-material/ChevronLeftOutlined";
 import ChevronRightOutlinedIcon from "@mui/icons-material/ChevronRightOutlined";
 
-import ProductsData from "..//ProductsData/ProductsData";
 
 import Products from "../Products/Products";
 

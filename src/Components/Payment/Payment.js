@@ -1,19 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
-import CurrencyFormat from "react-currency-format";
+import { CardElement } from "@stripe/react-stripe-js";
+import { NumericFormat as CurrencyFormat } from "react-number-format";
 import { Link, useNavigate } from "react-router-dom";
 import { useDataGlobaly } from "../StateProvider/StateProvider";
-import { collection, addDoc } from "firebase/firestore";
-import { db } from "../../firebase";
-import axios from "../../axios";
 import "./Payment.css";
 
 function Payment() {
   const { basket, user, Removebasket, RemoveAllCart } = useDataGlobaly();
   const [totalPrice, setTotalPrice] = useState(0);
+  const [paymentError, setPaymentError] = useState("");
 
-  const stripe = useStripe();
-  const elements = useElements();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,41 +20,11 @@ function Payment() {
     setTotalPrice(getBasketTotal);
   }, [basket]);
 
-  const handleSubmit = async () => {
-    try {
-      const { paymentMethod } = await stripe.createPaymentMethod({
-        type: "card",
-        card: elements.getElement(CardElement),
-      });
-
-      const response = await axios.post(
-        `https://gold-jittery-alligator.cyclic.app/payment?total=${totalPrice}`,
-        { paymentMethod }
-      );
-
-      const client_secret = response.data.secret;
-
-      const paymentConfirmation = await stripe.confirmCardPayment(
-        client_secret,
-        {
-          payment_method: paymentMethod.id,
-        }
-      );
-
-      console.log("RESPONSE AFTER COMPLETING PAYMENT ", paymentConfirmation);
-
-      if (paymentConfirmation.paymentIntent.status === "succeeded") {
-        const reference = collection(db, user?.uid);
-        await addDoc(reference, { ...basket });
-
-        RemoveAllCart();
-        navigate("/orders");
-      } else {
-        console.error("Payment failed");
-      }
-    } catch (error) {
-      console.error(error.message);
-    }
+  // Checkout is a demo only: no payment server is called and no card is charged.
+  const handleSubmit = () => {
+    setPaymentError(
+      "Checkout is disabled in this demo. No payment is taken."
+    );
   };
 
   return (
@@ -73,7 +39,18 @@ function Payment() {
       </div>
 
       <div className="payment-checkout-outer-wrapper">
-        {/* ... rest of your component ... */}
+        <div
+          style={{
+            margin: "0 0 16px",
+            padding: "12px 16px",
+            border: "1px solid #f0c14b",
+            background: "#fff8e1",
+            borderRadius: "4px",
+          }}
+        >
+          <strong>Demo only.</strong> This is a portfolio project, so checkout
+          is disabled and no payment is taken.
+        </div>
         <CurrencyFormat
           renderText={(value) => (
             <>
@@ -85,7 +62,14 @@ function Payment() {
                     Order total ( {basket.length} item ): {totalPrice}
                   </div>
                   <div className="payment-buynow">
-                    <button onClick={handleSubmit}>Buy Now</button>
+                    <button onClick={handleSubmit} style={{ opacity: 0.6, cursor: "not-allowed" }}>
+                      Checkout disabled (demo)
+                    </button>
+                    {paymentError && (
+                      <div style={{ color: "#b12704", marginTop: "8px" }}>
+                        {paymentError}
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
