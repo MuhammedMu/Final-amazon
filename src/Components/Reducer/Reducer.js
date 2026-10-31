@@ -3,7 +3,6 @@ import {
   LaptopsData,
   ProductsData,
 } from "../ProductsData/ProductsData";
-import { auth } from "firebase/auth";
 
 // console.log(auth)
 

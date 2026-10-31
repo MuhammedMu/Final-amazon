@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./Subtotal.css";
-import CurrencyFormat from "react-currency-format";
+import { NumericFormat as CurrencyFormat } from "react-number-format";
 import { useDataGlobaly } from "../StateProvider/StateProvider";
 import { Link } from "react-router-dom";
 // import { getBasketTotal } from '../Reducer/Reducer';

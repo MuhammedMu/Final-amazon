@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import CurrencyFormat from "react-currency-format";
+import { NumericFormat as CurrencyFormat } from "react-number-format";
 import { useDataGlobaly } from "../StateProvider/StateProvider";
 
 function CheckoutProduct() {

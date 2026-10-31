@@ -1,56 +1,44 @@
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 
+// The Stripe secret key must come from the environment, never from the code.
+const secretKey = process.env.STRIPE_SECRET_KEY;
+if (!secretKey) {
+  console.error("STRIPE_SECRET_KEY is not set. Copy .env.example to .env and add your key.");
+  process.exit(1);
+}
+const stripe = require("stripe")(secretKey);
+
 const app = express();
-const stripe = require("stripe")(
-  "sk_test_51MfjA5EhJx2w283plYzPAigO7XhpfgVe1qnKLwXYf0wlKIL6fF3L9DcpCwEhOFj9pswzIbp3NwbxtAkORm5ycB5Y00QL3LgiD6" //secret key
-);
 
-// require express, cors, stripe(sk)
-// seting up middleware
-// accept post request
-// take id-> req.body and total-price -> req.query
-// paymentIntents.create({amount, payment_method, currency})
-// take client_secret -> response and send it to the front-end
-// res.send({secret-key: value})
+app.use(cors({ origin: process.env.CLIENT_URL || true }));
+app.use(express.json());
 
-// listening on random port
+app.get("/", (req, res) => res.status(200).send("Amazon clone payment server is running"));
 
-app.use(cors());
+// POST /payment?total=<amount in cents>  ->  { secret: <client secret> }
+// The browser confirms the payment with this secret, so only the amount is needed here.
+app.post("/payment", async (req, res) => {
+  const total = Number(req.query.total);
 
-app.use(express.json()); // req.body.id = id123
+  // Stripe needs a whole number of cents; 50 is the USD minimum
+  if (!Number.isInteger(total) || total < 50 || total > 99999999) {
+    return res.status(400).json({ error: "Invalid payment amount." });
+  }
 
-app.post("/payment", (req, res) => {
-  const { id } = req.body; //from payment method
-  console.log("id from server page (payment method)" + id);
-  var totals = req.query.total;
-  // query parameter -> route parameters -> req.params
-  // req.params.id
-totals = Math.round(totals);
-// console.log("Total=" + totals);
-
-  let client_secret = "";
-
-  stripe.paymentIntents
-    .create({
-      amount: totals,
-      payment_method: id,
+  try {
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: total,
       currency: "usd",
-      description: "sample desc",
-    })
-    .then((response) => {
-        console.log("Client secret key from server"+response.client_secret);
-      var client_secret = response.client_secret;
-      res.send({ secret: client_secret });
+      payment_method_types: ["card"],
     });
-
-  console.log( "Recheck client secret key" + client_secret);
+    res.send({ secret: paymentIntent.client_secret });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({ error: "An error occurred while creating the payment." });
+  }
 });
 
-app.listen(3004, () => console.log("server listening on port 3004!"));
-// exports.api = functions.https.onRequest(app);
-
-
-// app.listen(3004, () => {
-//   console.log(`Server is running on port ${PORT}`);
-// });
+const PORT = process.env.PORT || 3004;
+app.listen(PORT, () => console.log(`Payment server listening on port ${PORT}`));
